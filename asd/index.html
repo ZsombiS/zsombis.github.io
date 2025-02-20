@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack Game</title>
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #player-cards, #dealer-cards {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            width: 80px;
+            height: 120px;
+            margin: 5px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .controls {
+            margin: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Blackjack Game</h1>
+
+<div id="dealer-cards"></div>
+<div id="player-cards"></div>
+
+<div class="controls">
+    <button id="hit-btn">Hit</button>
+    <button id="stand-btn">Stand</button>
+</div>
+
+<p id="player-score">Player Score: 0</p>
+<p id="message"></p>
+
+<script src="script.js"></script>
+</body>
+</html>
