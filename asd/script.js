@@ -20,7 +20,7 @@ async function drawCard() {
     try {
         const response = await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`);
         const data = await response.json();
-        return data.cards[0];  // returns the card object
+        return data.cards[0];  
     } catch (error) {
         console.error("Error drawing card:", error);
     }
@@ -34,15 +34,12 @@ function cardValue(card) {
 }
 
 function getCardImage(card) {
-    // Card suit and value mapping to asset image names
     const suit = card.suit === 'HEARTS' ? 'S' :
                  card.suit === 'DIAMONDS' ? 'K' :
                  card.suit === 'SPADES' ? 'T' : 'P';
     
-    // Map the card value for special cases (Ace, 10, Jack, Queen, King)
     let value = card.value;
 
-    // Adjust the values for special cards
     if (value === 'ACE') {
         value = 'A';
     } else if (value === '10' || value === '0') {
@@ -57,13 +54,12 @@ function getCardImage(card) {
 
     const imagePath = `assets/${suit}${value}.jpg`;
 
-    // Check if the image exists, if not, use back.jpg as a fallback image
     const img = new Image();
     img.src = imagePath;
-    img.onload = () => { return imagePath; };  // If the image loads, return the path.
-    img.onerror = () => { return 'assets/back.jpg'; };  // If the image doesn't load, fallback to back.jpg.
+    img.onload = () => { return imagePath; }; 
+    img.onerror = () => { return 'assets/back.jpg'; }; 
 
-    return imagePath;  // Returning this for now; it'll fall back if necessary.
+    return imagePath;  
 }
 
 async function startGame() {
@@ -72,11 +68,10 @@ async function startGame() {
     playerScore = 0;
     dealerScore = 0;
 
-    // Draw two cards for the player, but only one card for the dealer initially
     for (let i = 0; i < 2; i++) {
         playerCards.push(await drawCard());
     }
-    dealerCards.push(await drawCard());  // Only one card for the dealer
+    dealerCards.push(await drawCard());  
 
     updateScores();
     renderCards();
@@ -96,7 +91,6 @@ function renderCards() {
     playerDiv.innerHTML = "";
     dealerDiv.innerHTML = "";
 
-    // Render player cards
     playerCards.forEach(card => {
         const cardElement = document.createElement("div");
         cardElement.classList.add("card");
@@ -104,7 +98,6 @@ function renderCards() {
         playerDiv.appendChild(cardElement);
     });
 
-    // Render dealer cards (only reveal one card initially)
     dealerCards.forEach((card, index) => {
         const cardElement = document.createElement("div");
         cardElement.classList.add("card");
@@ -122,7 +115,6 @@ async function hit() {
 }
 
 async function stand() {
-    // Dealer draws cards until they have at least 17
     while (dealerScore < 17) {
         const card = await drawCard();
         dealerCards.push(card);
@@ -133,7 +125,6 @@ async function stand() {
 }
 
 function checkGameStatus() {
-    // Check if player or dealer busted
     if (playerScore > 21) {
         document.getElementById("message").textContent = "You Bust! Dealer Wins!";
         disableButtons();
@@ -147,7 +138,6 @@ function checkGameStatus() {
         document.getElementById("message").textContent = "Dealer got Blackjack! Dealer Wins!";
         disableButtons();
     } else if (dealerScore >= 17 && dealerScore <= 20) {
-        // Now compare the scores to determine who wins
         if (dealerScore > playerScore) {
             document.getElementById("message").textContent = "Dealer Wins!";
         } else if (dealerScore < playerScore) {
@@ -167,5 +157,4 @@ function disableButtons() {
 document.getElementById("hit-btn").addEventListener("click", hit);
 document.getElementById("stand-btn").addEventListener("click", stand);
 
-// Start a new game when the page loads
 initializeDeck();
